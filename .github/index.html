@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TP5 JavaScript — Page interactive</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;margin:18px;background:#f7f8fb}
+    .card{background:#fff;border-radius:8px;padding:14px;margin:10px 0;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+    label{display:block;margin:6px 0 3px}
+    input,select,button{padding:8px;border-radius:6px;border:1px solid #ddd}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    pre{background:#111;color:#e6e6e6;padding:10px;border-radius:6px;overflow:auto}
+  </style>
+</head>
+<body>
+  <h1>TP5 JavaScript — Page interactive</h1>
+  <p>Chaque section appelle les fonctions du TP. Les résultats apparaissent dans <code>Output</code>.</p>
+
+  <div class="card">
+    <h3>Output</h3>
+    <pre id="output">Prêt.</pre>
+    <button onclick="clearOutput()">Effacer</button>
+  </div>
+
+  <!-- Ex1 -->
+  <div class="card">
+    <h3>Exercice 1 — Détection de type</h3>
+    <button onclick="ex1()">Exécuter Ex1</button>
+  </div>
+
+  <!-- Ex2 -->
+  <div class="card">
+    <h3>Exercice 2 — Chaînes</h3>
+    <div class="row">
+      <input id="prenom" placeholder="Prénom (ex: Sara)" value="Sara">
+      <input id="age" type="number" placeholder="Age" value="22">
+      <button onclick="ex2()">Construire phrase</button>
+      <button onclick="incrAge()">Incrémenter âge (+1)</button>
+    </div>
+  </div>
+
+  <!-- Ex3 -->
+  <div class="card">
+    <h3>Exercice 3 — Classification nombre</h3>
+    <div class="row">
+      <input id="ex3n" type="number" placeholder="Entrez un nombre">
+      <button onclick="ex3()">Classifier</button>
+    </div>
+  </div>
+
+  <!-- Ex4 -->
+  <div class="card">
+    <h3>Exercice 4 — Multiples de 3 et 5</h3>
+    <div class="row">
+      <input id="min" type="number" placeholder="Min" value="1">
+      <input id="max" type="number" placeholder="Max" value="30">
+      <button onclick="ex4()">Afficher plage</button>
+    </div>
+  </div>
+
+  <!-- Ex5 -->
+  <div class="card">
+    <h3>Exercice 5 — Table de multiplication</h3>
+    <div class="row">
+      <input id="tabN" type="number" placeholder="Nombre" value="7">
+      <button onclick="ex5()">Afficher table</button>
+    </div>
+  </div>
+
+  <!-- Ex6 -->
+  <div class="card">
+    <h3>Exercice 6 — Somme pairs / impairs (1..50)</h3>
+    <button onclick="ex6()">Calculer</button>
+  </div>
+
+  <!-- Ex7 -->
+  <div class="card">
+    <h3>Exercice 7 — Vérifier mot de passe</h3>
+    <div class="row">
+      <input id="mdp" placeholder="Mot de passe à tester">
+      <button onclick="ex7()">Vérifier</button>
+    </div>
+  </div>
+
+  <!-- Ex8 -->
+  <div class="card">
+    <h3>Exercice 8 — Total avec remise</h3>
+    <div class="row">
+      <input id="totalHT" type="number" placeholder="Total HT" value="100">
+      <input id="remise" type="number" placeholder="Remise %" value="10">
+      <button onclick="ex8()">Calculer total final</button>
+    </div>
+  </div>
+
+  <!-- Ex9 -->
+  <div class="card">
+    <h3>Exercice 9 — Factorielle (récursive)</h3>
+    <div class="row">
+      <input id="factN" type="number" placeholder="n" value="5">
+      <button onclick="ex9()">Calculer factorielle</button>
+    </div>
+  </div>
+
+  <!-- Ex10 -->
+  <div class="card">
+    <h3>Exercice 10 — Somme itérative vs récursive</h3>
+    <div class="row">
+      <input id="sumN" type="number" placeholder="n" value="1000">
+      <button onclick="ex10()">Comparer</button>
+    </div>
+  </div>
+
+  <script>
+    const out = document.getElementById('output');
+    function write(text){ out.textContent += '\n' + text; }
+    function clearOutput(){ out.textContent = 'Prêt.' }
+
+    // ---------- Ex1 ----------
+    function ex1(){
+      let x = "150";
+      let y = 150;
+      let z = true;
+      clearOutput();
+      write(`typeof x ("150") -> ${typeof x}`);
+      write(`typeof y (150) -> ${typeof y}`);
+      write(`typeof z (true) -> ${typeof z}`);
+      x = Number(x);
+      write(`Après conversion x = Number(x) -> typeof x = ${typeof x}`);
+    }
+
+    // ---------- Ex2 ----------
+    function ex2(){
+      const prenom = document.getElementById('prenom').value;
+      const age = Number(document.getElementById('age').value);
+      clearOutput();
+      const phrase = `Je m'appelle ${prenom} et j'ai ${age} ans.`;
+      write(phrase);
+    }
+    function incrAge(){
+      const ageInput = document.getElementById('age');
+      ageInput.value = Number(ageInput.value) + 1;
+      ex2();
+    }
+
+    // ---------- Ex3 ----------
+    function ex3(){
+      const n = Number(document.getElementById('ex3n').value);
+      clearOutput();
+      if (n < 0) write('Nombre négatif');
+      else {
+        if (n <= 10) write('Petit');
+        else {
+          if (n <= 50) write('Moyen');
+          else {
+            if (n <= 100) write('Grand');
+            else write('Très grand');
+          }
+        }
+      }
+    }
+
+    // ---------- Ex4 ----------
+    function ex4(){
+      const min = Number(document.getElementById('min').value);
+      const max = Number(document.getElementById('max').value);
+      clearOutput();
+      for (let i = min; i <= max; i++){
+        if (i % 3 === 0 && i % 5 === 0) write(`${i} : Five&Three`);
+        else if (i % 3 === 0) write(`${i} : Three`);
+        else if (i % 5 === 0) write(`${i} : Five`);
+        else write(i);
+      }
+    }
+
+    // ---------- Ex5 ----------
+    function ex5(){
+      const n = Number(document.getElementById('tabN').value);
+      clearOutput();
+      for (let i = 1; i <= 10; i++) write(`${n} x ${i} = ${n * i}`);
+    }
+
+    // ---------- Ex6 ----------
+    function ex6(){
+      let sommePairs = 0;
+      let sommeImpairs = 0;
+      for (let i = 1; i <= 50; i++){
+        if (i % 2 === 0) sommePairs += i;
+        else sommeImpairs += i;
+      }
+      clearOutput();
+      write(`Somme des pairs (1..50) : ${sommePairs}`);
+      write(`Somme des impairs (1..50) : ${sommeImpairs}`);
+    }
+
+    // ---------- Ex7 ----------
+    function verifierMotDePasse(mdp){
+      return mdp.length >= 8 && mdp.includes('@');
+    }
+    function ex7(){
+      const mdp = document.getElementById('mdp').value || prompt('Entrez un mot de passe :');
+      clearOutput();
+      if (verifierMotDePasse(mdp)) write('Mot de passe valide');
+      else write('Mot de passe non valide');
+    }
+
+    // ---------- Ex8 ----------
+    function totalAvecRemise(total, remise){
+      return total - (total * remise / 100);
+    }
+    function ex8(){
+      const total = Number(document.getElementById('totalHT').value);
+      const remise = Number(document.getElementById('remise').value);
+      const final = totalAvecRemise(total, remise);
+      clearOutput();
+      write(`Total HT: ${total}`);
+      write(`Remise: ${remise}%`);
+      write(`Total après remise: ${final}`);
+    }
+
+    // ---------- Ex9 ----------
+    function factorielle(n){
+      if (n <= 0) return 1;
+      return n * factorielle(n - 1);
+    }
+    function ex9(){
+      const n = Number(document.getElementById('factN').value);
+      clearOutput();
+      write(`factorielle(${n}) = ${factorielle(n)}`);
+    }
+
+    // ---------- Ex10 ----------
+    function sommeIterative(n){
+      let s = 0;
+      for (let i = 1; i <= n; i++) s += i;
+      return s;
+    }
+    function sommeRecursive(n){
+      if (n === 0) return 0;
+      return n + sommeRecursive(n - 1);
+    }
+    function ex10(){
+      const n = Number(document.getElementById('sumN').value);
+      clearOutput();
+      const t0 = performance.now();
+      const iter = sommeIterative(n);
+      const t1 = performance.now();
+      const rec = (n < 10000) ? sommeRecursive(n) : 'n trop grand (risque de stack overflow)';
+      const t2 = performance.now();
+      write(`sommeIterative(${n}) = ${iter} (temps ${(t1-t0).toFixed(3)} ms)`);
+      write(`sommeRecursive(${n}) = ${rec} (temps ${(t2-t1).toFixed(3)} ms) `);
+      write('Note: la récursion profondeur > ~10000 peut provoquer une erreur de pile.');
+    }
+
+    // initial demo call
+    // ex1();
+  </script>
+</body>
+</html>
